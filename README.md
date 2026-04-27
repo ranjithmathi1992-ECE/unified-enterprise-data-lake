@@ -34,6 +34,46 @@ master automated system.
 | Apache Airflow | 2.9.0 | Master pipeline orchestration |
 
 ## 🏗️ Data Lake Architecture
+┌─────────────────────────────────────────────────────┐
+│                   SOURCE LAYER                       │
+│  MySQL DB1    MySQL DB2    MySQL DB3    MySQL DB4    │
+│ (Medicines) (Billing)    (Loans)    (Social Posts)  │
+└──────────────────────┬──────────────────────────────┘
+│ Master Python ETL
+▼
+┌─────────────────────────────────────────────────────┐
+│              HADOOP HDFS DATA LAKE                   │
+│  /data_lake/healthcare/medicines                     │
+│  /data_lake/healthcare/billing                       │
+│  /data_lake/banking/loans                            │
+│  /data_lake/social/sentiment                         │
+└──────────────────────┬──────────────────────────────┘
+│ Master PySpark Analytics
+▼
+┌─────────────────────────────────────────────────────┐
+│           PROCESSING AND RESULTS LAYER               │
+│  /data_lake/results/healthcare/medicines             │
+│  /data_lake/results/healthcare/billing               │
+│  /data_lake/results/banking                          │
+│  /data_lake/results/social                           │
+└──────────────────────┬──────────────────────────────┘
+│ Hive Data Warehouse
+▼
+┌─────────────────────────────────────────────────────┐
+│         ENTERPRISE HIVE DATA WAREHOUSE               │
+│  dim_medicines     fact_billing                      │
+│  fact_loan_risk    fact_sentiment                    │
+└──────────────────────┬──────────────────────────────┘
+│ Apache Airflow
+▼
+┌─────────────────────────────────────────────────────┐
+│           ORCHESTRATION LAYER                        │
+│  Master DAG: unified_data_lake_pipeline              │
+│  Task 1: master_etl_all_sources                      │
+│  Task 2: master_spark_analytics                      │
+│  Task 3: verify_enterprise_warehouse                 │
+└─────────────────────────────────────────────────────┘
+
 ## 📊 Data Lake Contents
 | Domain | Tables | Records |
 |--------|--------|---------|
