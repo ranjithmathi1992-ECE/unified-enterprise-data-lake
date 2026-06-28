@@ -136,3 +136,8 @@ http://localhost:8080
 - Healthcare Domain Knowledge
 - Banking Domain Knowledge
 - Social Media Analytics## 📊 Data Lake Contents
+## Dataset
+100,000 synthetic records across 4 domains (25K each)
+Healthcare | Banking | Social Media | Billing
+Run locally: pip install faker pandas && python generate_data.py
+
